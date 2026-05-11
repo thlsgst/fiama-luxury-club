@@ -25,11 +25,8 @@ function buildDots(container, count, cls, onClick){
 
 function addSwipe(el, threshold, onNext, onPrev){
   let startX=0, dragging=false;
-  el.addEventListener('mousedown',  e=>{ startX=e.clientX; dragging=true; });
   el.addEventListener('touchstart', e=>{ startX=e.touches[0].clientX; dragging=true; },{passive:true});
-  function end(x){ if(!dragging)return; dragging=false; const d=x-startX; if(d<-threshold)onNext(); else if(d>threshold)onPrev(); }
-  window.addEventListener('mouseup', e=>end(e.clientX));
-  el.addEventListener('touchend',    e=>end(e.changedTouches[0].clientX));
+  el.addEventListener('touchend',   e=>{ if(!dragging)return; dragging=false; const d=e.changedTouches[0].clientX-startX; if(d<-threshold)onNext(); else if(d>threshold)onPrev(); });
 }
 
 // ── DESTINATION CAROUSEL ──
