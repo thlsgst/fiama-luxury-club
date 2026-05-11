@@ -177,7 +177,19 @@ function addSwipe(el, threshold, onNext, onPrev){
   btnPrev.addEventListener('click', ()=>go(active-1));
   btnNext.addEventListener('click', ()=>go(active+1));
 
-  addSwipe(track, 50, ()=>go(active+1), ()=>go(active-1));
-
   update();
+})();
+
+// ── AUDIENCE ACCORDION (mobile / tablet) ──
+(function(){
+  const cols = document.querySelectorAll('#audience .aud-col');
+  if(!cols.length) return;
+  cols.forEach(col=>{
+    col.addEventListener('click',()=>{
+      if(!window.matchMedia('(max-width:768px)').matches) return;
+      const wasOpen = col.classList.contains('open');
+      cols.forEach(c=>c.classList.remove('open'));
+      if(!wasOpen) col.classList.add('open');
+    });
+  });
 })();
