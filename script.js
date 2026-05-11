@@ -83,6 +83,58 @@ function addSwipe(el, threshold, onNext, onPrev){
   update();
 })();
 
+// ── ESCAPE CAROUSEL SWIPE HINT (mobile / tablet) ──
+(function(){
+  const grid = document.querySelector('.escape-grid');
+  if(!grid) return;
+  const isMobileTab = ()=> window.matchMedia('(max-width:1024px)').matches;
+  let cancelled = false;
+  let animId = null;
+
+  function nudge(){
+    if(cancelled) return;
+    const peak = 50, bounce = 12, dur = 1300;
+    const start = performance.now();
+
+    function step(now){
+      if(cancelled) return;
+      const t = Math.min((now - start) / dur, 1);
+      let val;
+      if(t < .4){
+        const p = t / .4;
+        val = peak * (1 - Math.pow(1 - p, 2.5));
+      } else if(t < .7){
+        const p = (t - .4) / .3;
+        val = peak * Math.pow(1 - p, 2);
+      } else if(t < .85){
+        const p = (t - .7) / .15;
+        val = bounce * Math.sin(p * Math.PI);
+      } else {
+        val = 0;
+      }
+      grid.scrollLeft = Math.max(0, val);
+      if(t < 1) animId = requestAnimationFrame(step);
+      else setTimeout(()=>{ if(!cancelled) nudge(); }, 2500);
+    }
+    animId = requestAnimationFrame(step);
+  }
+
+  grid.addEventListener('touchstart', ()=>{
+    cancelled = true;
+    if(animId) cancelAnimationFrame(animId);
+  }, {once:true, passive:true});
+
+  const obs = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting && isMobileTab() && !cancelled){
+        obs.unobserve(e.target);
+        nudge();
+      }
+    });
+  }, {threshold:.25});
+  obs.observe(document.getElementById('escape'));
+})();
+
 // ── CIRCLE CAROUSEL ──
 (function(){
   const track   = document.getElementById('circle-track');
