@@ -27,8 +27,6 @@ a{text-decoration:none}
 
 /* ── LOGO ── */
 .hero-nav a[aria-label="Fiama Luxury Club"] svg{height:32px;width:auto;display:block}
-.foot-logo svg{height:28px;width:auto;display:block;opacity:.85}
-.foot-logo svg:hover{opacity:1}
 
 /* ── BUTTONS ── */
 .btn{display:inline-block;font-family:var(--sans);font-weight:700;letter-spacing:2.5px;text-transform:uppercase;text-decoration:none;transition:all .3s;cursor:pointer;border:none;font-size:10px}
@@ -300,18 +298,20 @@ a{text-decoration:none}
    FOOTER
 ══════════════════════════════════════════════ */
 footer{background:var(--dark);border-top:1px solid rgba(201,168,76,.18);padding:88px 88px 60px;color:rgba(255,255,255,.55)}
-.foot-grid{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:64px;margin-bottom:72px}
-.foot-logo{margin-bottom:48px}
-.foot-copy{font-family:var(--sans);font-size:11px;font-weight:300;line-height:2.2}
-.foot-copy a{color:rgba(255,255,255,.38);display:block;transition:color .3s;margin-top:10px}
-.foot-copy a:hover{color:var(--gold)}
+.foot-grid{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:64px;margin-bottom:72px;align-items:center}
+.foot-logo{display:block}
+.foot-logo svg{height:44px;width:auto;display:block;opacity:.85}
+.foot-logo svg:hover{opacity:1}
 .foot-col-h{font-family:var(--sans);font-size:8.5px;font-weight:700;letter-spacing:4.5px;text-transform:uppercase;color:var(--gold);margin-bottom:26px}
 .foot-links{list-style:none}
 .foot-links li+li{margin-top:13px}
 .foot-links a{font-family:var(--sans);font-size:13px;font-weight:300;color:rgba(255,255,255,.48);transition:color .3s;letter-spacing:.5px}
 .foot-links a:hover{color:#fff}
-.foot-bottom{border-top:1px solid rgba(255,255,255,.06);padding-top:40px;display:flex;align-items:center;justify-content:center}
+.foot-links li{font-family:var(--sans);font-size:13px;font-weight:300;color:rgba(255,255,255,.48);letter-spacing:.5px}
+.foot-bottom{border-top:1px solid rgba(255,255,255,.06);padding-top:40px;display:flex;align-items:center;justify-content:center;gap:24px}
 .foot-copy-line{font-family:var(--sans);font-size:10.5px;color:rgba(255,255,255,.28);letter-spacing:1px}
+.foot-bottom-link{font-family:var(--sans);font-size:10.5px;color:rgba(255,255,255,.28);letter-spacing:1px;transition:color .3s}
+.foot-bottom-link:hover{color:var(--gold)}
 .socials{display:flex;gap:14px}
 .soc{width:37px;height:37px;border:1px solid rgba(255,255,255,.13);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.45);transition:all .3s;text-decoration:none;font-size:13px}
 .soc:hover{border-color:var(--gold);color:var(--gold)}
