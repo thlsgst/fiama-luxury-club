@@ -187,10 +187,10 @@ a{text-decoration:none}
 #audience:has(.aud-col:hover) .aud-col:not(:hover) .aud-body{opacity:0;pointer-events:none}
 .aud-h{font-family:var(--serif);font-size:clamp(24px,2.8vw,42px);font-weight:300;margin-bottom:18px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:white-space .1s}
 .aud-col:hover .aud-h{white-space:normal}
-.aud-strong{font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:1.5px;color:var(--gold-light);margin-bottom:12px;opacity:0;transform:translateY(12px);transition:opacity .5s .2s,transform .5s .2s}
-.aud-col:hover .aud-strong{opacity:1;transform:none}
-.aud-text{font-family:var(--sans);font-size:13px;font-weight:300;line-height:1.8;opacity:0;transform:translateY(12px);transition:opacity .5s .3s,transform .5s .3s;max-width:440px}
-.aud-col:hover .aud-text{opacity:.82;transform:none}
+.aud-strong{font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:1.5px;color:var(--gold-light);margin-bottom:12px;opacity:0;transform:translateY(12px);transition:opacity .45s ease,transform .45s ease}
+.aud-col:hover .aud-strong{opacity:1;transform:none;transition:opacity .5s .2s ease,transform .5s .2s ease}
+.aud-text{font-family:var(--sans);font-size:13px;font-weight:300;line-height:1.8;opacity:0;transform:translateY(12px);transition:opacity .45s ease,transform .45s ease;max-width:440px}
+.aud-col:hover .aud-text{opacity:.82;transform:none;transition:opacity .5s .3s ease,transform .5s .3s ease}
 
 /* ══════════════════════════════════════════════
    § 9b · INFLUENCERS (dark)
@@ -383,6 +383,7 @@ footer{background:var(--dark);border-top:1px solid rgba(201,168,76,.18);padding:
   .cta-card{height:360px}
   /* ── audience accordion ── */
   #audience{flex-direction:column;height:auto;background:var(--dark)}
+  #audience:has(.aud-col:hover) .aud-col:not(:hover) .aud-body{opacity:1;pointer-events:auto}
   .aud-col{flex:none!important;height:auto;display:flex;flex-direction:column;cursor:pointer;overflow:hidden;border-bottom:1px solid rgba(201,168,76,.14)}
   .aud-col:last-child{border-bottom:none}
   .aud-body{position:relative;order:-1;padding:22px 24px}
