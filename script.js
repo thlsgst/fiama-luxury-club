@@ -193,3 +193,38 @@ function addSwipe(el, threshold, onNext, onPrev){
     });
   });
 })();
+
+// ── QUOTE MODAL ──
+(function(){
+  const modal = document.getElementById('quote-modal');
+  if(!modal) return;
+  const form = modal.querySelector('.qm-form');
+  const success = modal.querySelector('.qm-success');
+
+  function open(e){
+    e && e.preventDefault();
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden','false');
+    document.body.classList.add('qm-locked');
+    const first = modal.querySelector('input,select');
+    if(first) setTimeout(()=>first.focus(),120);
+  }
+
+  function close(){
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden','true');
+    document.body.classList.remove('qm-locked');
+  }
+
+  document.querySelectorAll('[data-open-quote]').forEach(b=>b.addEventListener('click', open));
+  modal.querySelectorAll('[data-close-quote]').forEach(b=>b.addEventListener('click', close));
+  document.addEventListener('keydown', e=>{ if(e.key === 'Escape' && modal.classList.contains('open')) close(); });
+
+  form.addEventListener('submit', e=>{
+    e.preventDefault();
+    if(!form.checkValidity()){ form.reportValidity(); return; }
+    success.hidden = false;
+    form.querySelector('.qm-submit').disabled = true;
+    setTimeout(()=>{ close(); form.reset(); success.hidden = true; form.querySelector('.qm-submit').disabled = false; }, 2200);
+  });
+})();

@@ -314,6 +314,45 @@ footer{background:var(--dark);border-top:1px solid rgba(201,168,76,.18);padding:
 .socials{display:flex;gap:14px}
 .soc{width:37px;height:37px;border:1px solid rgba(255,255,255,.13);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.45);transition:all .3s;text-decoration:none;font-size:13px}
 .soc:hover{border-color:var(--gold);color:var(--gold)}
+.foot-cta{margin-top:32px;padding:14px 36px;font-size:10px}
+
+/* ══════════════════════════════════════════════
+   QUOTE MODAL
+══════════════════════════════════════════════ */
+.qm{position:fixed;inset:0;z-index:1000;display:none;align-items:center;justify-content:center;padding:24px}
+.qm.open{display:flex}
+.qm-backdrop{position:absolute;inset:0;background:rgba(0,0,0,.78);backdrop-filter:blur(4px);animation:qmFade .35s ease}
+.qm-dialog{position:relative;width:100%;max-width:600px;max-height:calc(100vh - 48px);overflow-y:auto;background:var(--dark);border:1px solid rgba(201,168,76,.22);padding:56px 56px 44px;color:#fff;animation:qmRise .4s cubic-bezier(.2,.7,.25,1)}
+.qm-close{position:absolute;top:18px;right:18px;width:36px;height:36px;background:transparent;border:none;color:rgba(255,255,255,.55);font-size:28px;line-height:1;cursor:pointer;transition:color .25s;display:flex;align-items:center;justify-content:center;padding:0}
+.qm-close:hover{color:var(--gold)}
+.qm-head{margin-bottom:32px;text-align:center}
+.qm-eyebrow{margin-bottom:12px}
+.qm-title{font-family:var(--serif);font-size:clamp(28px,3.4vw,40px);font-weight:300;line-height:1.15;margin-bottom:14px}
+.qm-title em{font-style:italic;color:var(--gold)}
+.qm-sub{font-family:var(--sans);font-size:12.5px;font-weight:300;line-height:1.7;color:rgba(255,255,255,.6);max-width:440px;margin:0 auto}
+.qm-form{display:flex;flex-direction:column;gap:18px}
+.qm-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.qm-row-phone{grid-template-columns:130px 1fr}
+.qm-field{display:flex;flex-direction:column;gap:7px}
+.qm-label{font-family:var(--sans);font-size:9.5px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,.62)}
+.qm-req{color:var(--gold);margin-left:2px}
+.qm-form input,.qm-form select,.qm-form textarea{font-family:var(--sans);font-size:13px;font-weight:300;color:#fff;background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,.18);padding:10px 0;transition:border-color .3s;outline:none;width:100%;border-radius:0}
+.qm-form input:focus,.qm-form select:focus,.qm-form textarea:focus{border-color:var(--gold)}
+.qm-form select{appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8' fill='none'%3e%3cpath d='M1 1l5 5 5-5' stroke='%23C9A84C' stroke-width='1.4'/%3e%3c/svg%3e");background-repeat:no-repeat;background-position:right 4px center;background-size:11px;padding-right:24px;cursor:pointer}
+.qm-form select option{background:var(--dark);color:#fff}
+.qm-form textarea{resize:vertical;min-height:90px;line-height:1.6}
+.qm-form input::placeholder,.qm-form textarea::placeholder{color:rgba(255,255,255,.32)}
+.qm-check{display:flex;align-items:flex-start;gap:10px;font-family:var(--sans);font-size:11.5px;font-weight:300;line-height:1.6;color:rgba(255,255,255,.65);cursor:pointer;margin-top:4px}
+.qm-check input{flex-shrink:0;width:14px;height:14px;margin-top:2px;accent-color:var(--gold);cursor:pointer}
+.qm-legal{font-family:var(--sans);font-size:10.5px;font-weight:300;line-height:1.7;color:rgba(255,255,255,.42);margin-top:6px}
+.qm-submit{margin-top:14px;width:100%;padding:16px 52px}
+.qm-success{font-family:var(--sans);font-size:12.5px;color:var(--gold);text-align:center;margin-top:14px;letter-spacing:.5px}
+.qm-dialog::-webkit-scrollbar{width:6px}
+.qm-dialog::-webkit-scrollbar-thumb{background:rgba(201,168,76,.3)}
+.qm-dialog::-webkit-scrollbar-track{background:transparent}
+body.qm-locked{overflow:hidden}
+@keyframes qmFade{from{opacity:0}to{opacity:1}}
+@keyframes qmRise{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
 
 /* ══════════════════════════════════════════════
    RESPONSIVE
@@ -411,6 +450,10 @@ footer{background:var(--dark);border-top:1px solid rgba(201,168,76,.18);padding:
   footer{padding:56px 24px 40px}
   .foot-grid{grid-template-columns:1fr;gap:44px}
   .foot-bottom{flex-direction:column;gap:24px;text-align:center}
+  .qm{padding:0}
+  .qm-dialog{max-height:100vh;height:100vh;padding:64px 24px 32px;max-width:none;border:none}
+  .qm-row{grid-template-columns:1fr;gap:18px}
+  .qm-row-phone{grid-template-columns:110px 1fr;gap:14px}
 }
 @media(max-width:480px){
   .esc-card{flex:0 0 92vw}
