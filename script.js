@@ -83,7 +83,7 @@ function addSwipe(el, threshold, onNext, onPrev){
   update();
 })();
 
-// ── ESCAPE CAROUSEL SWIPE HINT (mobile / tablet) ──
+// ── ESCAPE SWIPE HINT (mobile / tablet) ──
 (function(){
   const grid = document.querySelector('.escape-grid');
   if(!grid) return;
@@ -91,32 +91,35 @@ function addSwipe(el, threshold, onNext, onPrev){
   let cancelled = false;
   let animId = null;
 
-  function nudge(){
+  function hint(){
     if(cancelled) return;
-    const peak = 50, bounce = 12, dur = 1300;
-    const start = performance.now();
+    const card = grid.querySelector('.esc-card');
+    if(!card) return;
+    const target = card.offsetWidth * 0.55;
+    const slideDur = 900;
+    const returnDur = 600;
+    let start = performance.now();
 
-    function step(now){
+    // Phase 1: slide left — ease-out
+    function slideLeft(now){
       if(cancelled) return;
-      const t = Math.min((now - start) / dur, 1);
-      let val;
-      if(t < .4){
-        const p = t / .4;
-        val = peak * (1 - Math.pow(1 - p, 2.5));
-      } else if(t < .7){
-        const p = (t - .4) / .3;
-        val = peak * Math.pow(1 - p, 2);
-      } else if(t < .85){
-        const p = (t - .7) / .15;
-        val = bounce * Math.sin(p * Math.PI);
-      } else {
-        val = 0;
-      }
-      grid.scrollLeft = Math.max(0, val);
-      if(t < 1) animId = requestAnimationFrame(step);
-      else setTimeout(()=>{ if(!cancelled) nudge(); }, 2500);
+      const t = Math.min((now - start) / slideDur, 1);
+      grid.scrollLeft = target * (1 - Math.pow(1 - t, 3));
+      if(t < 1) animId = requestAnimationFrame(slideLeft);
+      else { start = performance.now(); animId = requestAnimationFrame(snapBack); }
     }
-    animId = requestAnimationFrame(step);
+
+    // Phase 2: snap back — ease-in-out (like releasing a swipe)
+    function snapBack(now){
+      if(cancelled) return;
+      const t = Math.min((now - start) / returnDur, 1);
+      const ease = t < .5 ? 2*t*t : 1 - Math.pow(-2*t+2, 2)/2;
+      grid.scrollLeft = target * (1 - ease);
+      if(t < 1) animId = requestAnimationFrame(snapBack);
+      else setTimeout(()=>{ if(!cancelled) hint(); }, 3000);
+    }
+
+    animId = requestAnimationFrame(slideLeft);
   }
 
   grid.addEventListener('touchstart', ()=>{
@@ -128,7 +131,7 @@ function addSwipe(el, threshold, onNext, onPrev){
     entries.forEach(e=>{
       if(e.isIntersecting && isMobileTab() && !cancelled){
         obs.unobserve(e.target);
-        nudge();
+        hint();
       }
     });
   }, {threshold:.25});
