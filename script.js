@@ -11,8 +11,6 @@ const ro = new IntersectionObserver(entries=>{
 reveals.forEach(el=>ro.observe(el));
 
 // ── SHARED HELPERS ──
-const isMobile = ()=> window.matchMedia('(max-width:768px)').matches;
-
 function buildDots(container, count, cls, onClick){
   for(let i=0;i<count;i++){
     const d = document.createElement('button');
@@ -34,8 +32,7 @@ function addSwipe(el, threshold, onNext, onPrev){
   const track   = document.getElementById('carTrack');
   const slides  = Array.from(track.querySelectorAll('.dest-slide'));
   const dotsWrap= document.getElementById('carDots');
-  const section = document.getElementById('destinations');
-  let active=0, timer=null, hovered=false;
+  let active=0;
 
   function getOffset(){
     const sw = slides[0].offsetWidth;
@@ -50,13 +47,6 @@ function addSwipe(el, threshold, onNext, onPrev){
 
   function go(n){ active=(n+slides.length)%slides.length; update(); }
 
-  function startTimer(){
-    clearInterval(timer); timer=null;
-    if(hovered || isMobile()) return;
-    timer=setInterval(()=>go(active+1),6000);
-  }
-  function stopTimer(){ clearInterval(timer); timer=null; }
-
   buildDots(dotsWrap, slides.length, 'car-dot', go);
 
   document.getElementById('carPrev').addEventListener('click',()=>go(active-1));
@@ -68,14 +58,6 @@ function addSwipe(el, threshold, onNext, onPrev){
 
   window.addEventListener('resize',update);
   update();
-
-  // Auto-advance: only while section is in view; blocked on mobile
-  section.addEventListener('mouseenter',()=>{ hovered=true;  stopTimer(); });
-  section.addEventListener('mouseleave',()=>{ hovered=false; startTimer(); });
-
-  new IntersectionObserver(entries=>{
-    entries.forEach(e=>{ if(e.isIntersecting) startTimer(); else stopTimer(); });
-  },{threshold:.15}).observe(section);
 })();
 
 // ── YACHT SLIDESHOW ──
@@ -83,9 +65,7 @@ function addSwipe(el, threshold, onNext, onPrev){
   const slides  = Array.from(document.querySelectorAll('.yt-slide'));
   const dotsWrap= document.getElementById('ytDots');
   const progress= document.getElementById('ytProgress');
-  const section = document.getElementById('yacht');
-  let active=0, timer=null;
-  const INTERVAL = 7000;
+  let active=0;
 
   function update(){
     slides.forEach((s,i)=>s.classList.toggle('on',i===active));
@@ -95,33 +75,20 @@ function addSwipe(el, threshold, onNext, onPrev){
 
   function go(n){ active=(n+slides.length)%slides.length; update(); }
 
-  function startTimer(){
-    clearInterval(timer); timer=null;
-    if(isMobile()) return;
-    timer=setInterval(()=>go(active+1),INTERVAL);
-  }
-  function stopTimer(){ clearInterval(timer); timer=null; }
-
   buildDots(dotsWrap, slides.length, 'yt-dot', go);
 
-  document.getElementById('ytPrev').addEventListener('click',()=>{ stopTimer(); go(active-1); startTimer(); });
-  document.getElementById('ytNext').addEventListener('click',()=>{ stopTimer(); go(active+1); startTimer(); });
+  document.getElementById('ytPrev').addEventListener('click',()=>go(active-1));
+  document.getElementById('ytNext').addEventListener('click',()=>go(active+1));
 
-  section.addEventListener('mouseenter', stopTimer);
-  section.addEventListener('mouseleave', startTimer);
-
-  startTimer();
   update();
 })();
 
 // ── CIRCLE CAROUSEL ──
 (function(){
-  const carousel= document.getElementById('circle-carousel');
   const track   = document.getElementById('circle-track');
   const slides  = Array.from(track.querySelectorAll('.cc-slide'));
   const dotsWrap= document.getElementById('ccDots');
-  let active=0, timer=null, paused=false;
-  const INTERVAL = 12000;
+  let active=0;
 
   function update(){
     track.style.transform = `translateX(-${active*100}%)`;
@@ -132,13 +99,6 @@ function addSwipe(el, threshold, onNext, onPrev){
   }
 
   function go(n){ active=(n+slides.length)%slides.length; update(); }
-
-  function startTimer(){
-    clearInterval(timer); timer=null;
-    if(paused || isMobile()) return;
-    timer=setInterval(()=>go(active+1),INTERVAL);
-  }
-  function stopTimer(){ clearInterval(timer); timer=null; }
 
   buildDots(dotsWrap, slides.length, 'cc-dot', go);
 
@@ -151,9 +111,5 @@ function addSwipe(el, threshold, onNext, onPrev){
 
   addSwipe(track, 50, ()=>go(active+1), ()=>go(active-1));
 
-  carousel.addEventListener('mouseenter', ()=>{ paused=true;  stopTimer(); });
-  carousel.addEventListener('mouseleave', ()=>{ paused=false; startTimer(); });
-
-  startTimer();
   update();
 })();
