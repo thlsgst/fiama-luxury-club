@@ -96,35 +96,48 @@ function addSwipe(el, threshold, onNext, onPrev){
     const card = grid.querySelector('.esc-card');
     if(!card) return;
     const target = card.offsetWidth * 0.55;
-    const slideDur = 900;
-    const returnDur = 600;
-    let start = performance.now();
 
-    // Phase 1: slide left — ease-out
-    function slideLeft(now){
-      if(cancelled) return;
-      const t = Math.min((now - start) / slideDur, 1);
-      grid.scrollLeft = target * (1 - Math.pow(1 - t, 3));
-      if(t < 1) animId = requestAnimationFrame(slideLeft);
-      else { start = performance.now(); animId = requestAnimationFrame(snapBack); }
+    // disable snap so scrollLeft isn't overridden by the browser
+    grid.style.scrollSnapType = 'none';
+
+    let phase = 1, start = performance.now();
+
+    function frame(now){
+      if(cancelled){ restore(); return; }
+      const elapsed = now - start;
+
+      if(phase === 1){
+        // slide left — 900ms ease-out
+        const t = Math.min(elapsed / 900, 1);
+        grid.scrollLeft = target * (1 - Math.pow(1 - t, 3));
+        if(t < 1){ animId = requestAnimationFrame(frame); return; }
+        phase = 2; start = now;
+      }
+
+      if(phase === 2){
+        // snap back — 600ms ease-in-out
+        const t = Math.min((now - start) / 600, 1);
+        const ease = t < .5 ? 2*t*t : 1 - Math.pow(-2*t+2, 2)/2;
+        grid.scrollLeft = target * (1 - ease);
+        if(t < 1){ animId = requestAnimationFrame(frame); return; }
+        restore();
+        setTimeout(()=>{ if(!cancelled) hint(); }, 3000);
+        return;
+      }
     }
 
-    // Phase 2: snap back — ease-in-out (like releasing a swipe)
-    function snapBack(now){
-      if(cancelled) return;
-      const t = Math.min((now - start) / returnDur, 1);
-      const ease = t < .5 ? 2*t*t : 1 - Math.pow(-2*t+2, 2)/2;
-      grid.scrollLeft = target * (1 - ease);
-      if(t < 1) animId = requestAnimationFrame(snapBack);
-      else setTimeout(()=>{ if(!cancelled) hint(); }, 3000);
-    }
+    animId = requestAnimationFrame(frame);
+  }
 
-    animId = requestAnimationFrame(slideLeft);
+  function restore(){
+    grid.scrollLeft = 0;
+    grid.style.scrollSnapType = '';
   }
 
   grid.addEventListener('touchstart', ()=>{
     cancelled = true;
     if(animId) cancelAnimationFrame(animId);
+    restore();
   }, {once:true, passive:true});
 
   const obs = new IntersectionObserver(entries=>{
