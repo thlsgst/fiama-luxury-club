@@ -185,7 +185,8 @@ a{text-decoration:none}
 .aud-veil{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.85) 0%,rgba(0,0,0,.08) 55%)}
 .aud-body{position:absolute;bottom:0;left:0;right:0;padding:52px 44px;color:#fff;transition:opacity .72s cubic-bezier(.4,0,.2,1)}
 #audience:has(.aud-col:hover) .aud-col:not(:hover) .aud-body{opacity:0;pointer-events:none;transition:opacity .35s ease}
-.aud-h{font-family:var(--serif);font-size:clamp(24px,2.8vw,42px);font-weight:300;margin-bottom:18px}
+.aud-h{font-family:var(--serif);font-size:clamp(24px,2.8vw,42px);font-weight:300;margin-bottom:18px;transition:opacity .72s cubic-bezier(.4,0,.2,1)}
+#audience:has(.aud-col:hover) .aud-col:not(:hover) .aud-h{opacity:0;transition:opacity .35s ease}
 .aud-strong{font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:1.5px;color:var(--gold-light);margin-bottom:12px;opacity:0;transform:translateY(8px);transition:opacity .55s cubic-bezier(.4,0,.2,1),transform .55s cubic-bezier(.4,0,.2,1)}
 .aud-col:hover .aud-strong{opacity:1;transform:none;transition:opacity .5s .2s ease,transform .5s .2s ease}
 .aud-text{font-family:var(--sans);font-size:13px;font-weight:300;line-height:1.8;opacity:0;transform:translateY(8px);transition:opacity .55s cubic-bezier(.4,0,.2,1),transform .55s cubic-bezier(.4,0,.2,1);max-width:440px}
@@ -421,7 +422,8 @@ body.qm-locked{overflow:hidden}
   .cta-card{height:360px}
   /* ── audience accordion ── */
   #audience{flex-direction:column;height:auto;background:var(--dark)}
-  #audience:has(.aud-col:hover) .aud-col:not(:hover) .aud-body{opacity:1;pointer-events:auto}
+  #audience:has(.aud-col:hover) .aud-col:not(:hover) .aud-body,
+  #audience:has(.aud-col:hover) .aud-col:not(:hover) .aud-h{opacity:1;pointer-events:auto}
   .aud-col{flex:none!important;height:auto;display:flex;flex-direction:column;cursor:pointer;overflow:hidden;border-bottom:1px solid rgba(201,168,76,.14)}
   .aud-col:last-child{border-bottom:none}
   .aud-body{position:relative;order:-1;padding:22px 24px}
