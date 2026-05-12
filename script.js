@@ -87,46 +87,36 @@ function addSwipe(el, threshold, onNext, onPrev){
 (function(){
   const grid = document.querySelector('.escape-grid');
   if(!grid) return;
-  const isMobileTab = ()=> window.matchMedia('(max-width:1024px)').matches;
-  let cancelled = false;
-  let animId = null;
+  let cancelled = false, animId = null;
+
+  function animate(duration, ease, onProgress, onDone){
+    const start = performance.now();
+    (function step(now){
+      if(cancelled) return;
+      const t = Math.min((now - start) / duration, 1);
+      onProgress(ease(t));
+      if(t < 1) animId = requestAnimationFrame(step);
+      else onDone();
+    })(start);
+  }
 
   function hint(){
     if(cancelled) return;
     const card = grid.querySelector('.esc-card');
     if(!card) return;
     const target = card.offsetWidth * 0.55;
+    grid.style.scrollSnapType = 'none'; // prevent browser snap during animation
 
-    // disable snap so scrollLeft isn't overridden by the browser
-    grid.style.scrollSnapType = 'none';
+    const easeOut = t => 1 - Math.pow(1 - t, 3);
+    const easeInOut = t => t < .5 ? 2*t*t : 1 - Math.pow(-2*t+2, 2)/2;
 
-    let phase = 1, start = performance.now();
-
-    function frame(now){
-      if(cancelled){ restore(); return; }
-      const elapsed = now - start;
-
-      if(phase === 1){
-        // slide left — 900ms ease-out
-        const t = Math.min(elapsed / 900, 1);
-        grid.scrollLeft = target * (1 - Math.pow(1 - t, 3));
-        if(t < 1){ animId = requestAnimationFrame(frame); return; }
-        phase = 2; start = now;
-      }
-
-      if(phase === 2){
-        // snap back — 600ms ease-in-out
-        const t = Math.min((now - start) / 600, 1);
-        const ease = t < .5 ? 2*t*t : 1 - Math.pow(-2*t+2, 2)/2;
-        grid.scrollLeft = target * (1 - ease);
-        if(t < 1){ animId = requestAnimationFrame(frame); return; }
+    // slide left, then snap back
+    animate(900, easeOut, v => { grid.scrollLeft = target * v; }, ()=>{
+      animate(600, easeInOut, v => { grid.scrollLeft = target * (1 - v); }, ()=>{
         restore();
         setTimeout(()=>{ if(!cancelled) hint(); }, 3000);
-        return;
-      }
-    }
-
-    animId = requestAnimationFrame(frame);
+      });
+    });
   }
 
   function restore(){
@@ -142,7 +132,7 @@ function addSwipe(el, threshold, onNext, onPrev){
 
   const obs = new IntersectionObserver(entries=>{
     entries.forEach(e=>{
-      if(e.isIntersecting && isMobileTab() && !cancelled){
+      if(e.isIntersecting && window.matchMedia('(max-width:1024px)').matches && !cancelled){
         obs.unobserve(e.target);
         hint();
       }
