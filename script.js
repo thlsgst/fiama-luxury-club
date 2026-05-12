@@ -184,6 +184,11 @@ function addSwipe(el, threshold, onNext, onPrev){
   });
 })();
 
+// ── PLACEHOLDER ANCHORS (prevent jump-to-top) ──
+document.querySelectorAll('.soc[href="#"]').forEach(a=>{
+  a.addEventListener('click', e => e.preventDefault());
+});
+
 // ── QUOTE MODAL ──
 (function(){
   const modal = document.getElementById('quote-modal');
