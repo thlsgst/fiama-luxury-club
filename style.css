@@ -11,7 +11,7 @@
   --mid:#545450;
   --light:#8A8A85;
   --serif:'Cormorant Garamond',Georgia,serif;
-  --sans: 'Montserrat',Arial,sans-serif;
+  --sans:'Raleway',Arial,sans-serif;
 }
 html{scroll-behavior:smooth;}
 body{font-family:var(--sans);color:var(--text);background:var(--white);overflow-x:hidden;text-wrap:pretty;}
@@ -188,7 +188,9 @@ a{text-decoration:none}
 /* ══════════════════════════════════════════════
    § 9b · INFLUENCERS (dark)
 ══════════════════════════════════════════════ */
-#influencers{background:var(--dark2);padding:120px 88px;color:#fff;background-image:linear-gradient(90deg,rgba(20,20,16,.92) 0%,rgba(20,20,16,.82) 42%,rgba(20,20,16,.56) 68%,rgba(20,20,16,.72) 100%),radial-gradient(ellipse 60% 60% at 15% 55%,rgba(201,168,76,.07) 0%,transparent 60%),radial-gradient(ellipse 50% 50% at 85% 20%,rgba(201,168,76,.05) 0%,transparent 50%),url('assets/fiama-circle.webp');background-position:center,15% 55%,85% 20%,right center;background-repeat:no-repeat,no-repeat,no-repeat,no-repeat;background-size:auto,auto,auto,contain}
+#influencers{background:var(--dark2);padding:120px 88px;color:#fff;background-image:radial-gradient(ellipse 60% 60% at 12% 50%,rgba(201,168,76,.06) 0%,transparent 60%);background-repeat:no-repeat}
+.inf-photo{margin:0;overflow:hidden;background:#0d0d0a;border:1px solid rgba(201,168,76,.16)}
+.inf-photo img{width:100%;height:100%;object-fit:cover;display:block;filter:grayscale(.15)}
 .inf-head{max-width:820px;margin-bottom:80px}
 .inf-eyebrow{font-family:var(--sans);font-size:12px;font-weight:600;letter-spacing:4.5px;text-transform:uppercase;color:var(--gold);margin-bottom:22px}
 .inf-h{font-family:var(--serif);font-size:clamp(48px,6.5vw,84px);font-weight:300;font-style:italic;line-height:1.08;margin-bottom:32px;text-wrap:balance}
@@ -230,21 +232,45 @@ a{text-decoration:none}
 /* ── Inside-carousel overrides: compact side-by-side layouts ── */
 .cc-slide #influencers{
   flex:1;display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:0 72px;
-  align-items:center;
-  padding:52px 88px;
+  grid-template-columns:40% 1fr;
+  grid-template-rows:auto auto;
+  gap:24px 56px;
+  align-items:start;
+  align-content:center;
+  padding:52px 72px;
   margin:0
 }
-.cc-slide .inf-head{max-width:none;margin-bottom:0}
+.cc-slide .inf-photo{
+  grid-column:1;
+  grid-row:1 / 3;
+  align-self:stretch;
+  height:100%;
+  min-height:400px;
+  max-height:66vh
+}
+.cc-slide .inf-head{
+  grid-column:2;
+  grid-row:1;
+  max-width:none;
+  margin-bottom:0;
+  align-self:end
+}
 .cc-slide .inf-eyebrow{margin-bottom:16px}
 .cc-slide .inf-h{font-size:clamp(28px,3.8vw,52px);margin-bottom:20px}
 .cc-slide .inf-p{font-size:15px;line-height:1.85;max-width:none}
-.cc-slide .inf-grid{grid-template-columns:1fr;margin-top:0;border:1px solid rgba(201,168,76,.18)}
-.cc-slide .inf-card{padding:22px 28px;border-right:none;border-bottom:1px solid rgba(201,168,76,.14)}
-.cc-slide .inf-card:last-child{border-bottom:none}
-.cc-slide .inf-icon{font-size:26px;margin-bottom:10px}
-.cc-slide .inf-card-p{font-size:14px;line-height:1.7}
+.cc-slide .inf-grid{
+  grid-column:2;
+  grid-row:2;
+  width:100%;
+  grid-template-columns:repeat(3,1fr);
+  gap:0 32px;
+  margin-top:12px;
+  border:none
+}
+.cc-slide .inf-card{padding:20px 0 0;border:none;border-top:1px solid rgba(201,168,76,.3)}
+.cc-slide .inf-icon{font-size:24px;margin-bottom:12px}
+.cc-slide .inf-card-h{margin-bottom:8px}
+.cc-slide .inf-card-p{font-size:13.5px;line-height:1.6}
 
 .cc-slide #circle{
   flex:1;display:grid;
@@ -375,10 +401,11 @@ body.qm-locked{overflow:hidden}
   .yt-nav{left:44px}
   /* carousel slides: drop to single column at tablet */
   #circle-carousel{min-height:auto}
-  .cc-slide #influencers{grid-template-columns:1fr;gap:36px;padding:44px 48px}
-  .cc-slide .inf-grid{grid-template-columns:repeat(3,1fr);border:1px solid rgba(201,168,76,.18)}
-  .cc-slide .inf-card{border-right:1px solid rgba(201,168,76,.14);border-bottom:none;padding:20px 22px}
-  .cc-slide .inf-card:last-child{border-right:none}
+  .cc-slide #influencers{grid-template-columns:1fr;grid-template-rows:auto auto auto;gap:32px;padding:44px 48px}
+  .cc-slide .inf-photo{grid-column:1;grid-row:1;height:300px;min-height:0;max-height:340px}
+  .cc-slide .inf-head{grid-column:1;grid-row:2}
+  .cc-slide .inf-grid{grid-column:1;grid-row:3;grid-template-columns:repeat(3,1fr);gap:0 28px;border:none}
+  .cc-slide .inf-card{border:none;border-top:1px solid rgba(201,168,76,.3);padding:18px 0 0}
   .cc-slide #circle{grid-template-columns:1fr;grid-template-rows:auto auto auto;gap:28px 0;padding:44px 48px}
   .cc-slide .circle-head{grid-column:1;grid-row:1}
   .cc-slide .circle-body{grid-column:1;grid-row:2;gap:20px}
@@ -433,9 +460,10 @@ body.qm-locked{overflow:hidden}
   .cc-slide #influencers,.cc-slide #circle{padding:40px 24px}
   .cc-slide #circle{gap:20px 0}
   .cc-slide .circle-cta{padding-top:16px}
-  .cc-slide .inf-grid{grid-template-columns:1fr}
-  .cc-slide .inf-card{border-right:none;border-bottom:1px solid rgba(201,168,76,.14);padding:18px 20px}
-  .cc-slide .inf-card:last-child{border-bottom:none}
+  .cc-slide #influencers{gap:24px}
+  .cc-slide .inf-photo{height:220px;max-height:240px}
+  .cc-slide .inf-grid{grid-template-columns:1fr;gap:0}
+  .cc-slide .inf-card{border:none;border-top:1px solid rgba(201,168,76,.3);padding:16px 0 0}
   .cc-slide .circle-body{gap:20px}
   .cc-slide .circle-item{padding:18px 20px}
   .cc-slide .circle-num{font-size:32px}
