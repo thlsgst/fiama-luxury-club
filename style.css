@@ -403,6 +403,7 @@ body.qm-locked{overflow:hidden}
   #circle-carousel{min-height:auto}
   .cc-slide #influencers{grid-template-columns:1fr;grid-template-rows:auto auto auto;gap:32px;padding:44px 48px}
   .cc-slide .inf-photo{grid-column:1;grid-row:1;height:300px;min-height:0;max-height:340px}
+  .cc-slide .inf-photo img{object-position:center top}
   .cc-slide .inf-head{grid-column:1;grid-row:2}
   .cc-slide .inf-grid{grid-column:1;grid-row:3;grid-template-columns:repeat(3,1fr);gap:0 28px;border:none}
   .cc-slide .inf-card{border:none;border-top:1px solid rgba(201,168,76,.3);padding:18px 0 0}
