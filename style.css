@@ -501,3 +501,9 @@ body.qm-locked{overflow:hidden}
   .qm-form,.qm-row{gap:18px}
   .qm-row-phone{grid-template-columns:96px 1fr;gap:10px}
 }
+
+/* ── ACCESSIBILITY: respect reduced-motion ── */
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
+  .reveal{opacity:1!important;transform:none!important}
+}
