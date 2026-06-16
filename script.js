@@ -184,11 +184,6 @@ function addSwipe(el, threshold, onNext, onPrev){
   });
 })();
 
-// ── PLACEHOLDER ANCHORS (prevent jump-to-top) ──
-document.querySelectorAll('.soc[href="#"]').forEach(a=>{
-  a.addEventListener('click', e => e.preventDefault());
-});
-
 // ── QUOTE MODAL ──
 (function(){
   const modal = document.getElementById('quote-modal');
@@ -215,11 +210,24 @@ document.querySelectorAll('.soc[href="#"]').forEach(a=>{
   modal.querySelectorAll('[data-close-quote]').forEach(b=>b.addEventListener('click', close));
   document.addEventListener('keydown', e=>{ if(e.key === 'Escape' && modal.classList.contains('open')) close(); });
 
-  form.addEventListener('submit', e=>{
+  form.addEventListener('submit', async e=>{
     e.preventDefault();
     if(!form.checkValidity()){ form.reportValidity(); return; }
-    success.hidden = false;
-    form.querySelector('.qm-submit').disabled = true;
-    setTimeout(()=>{ close(); form.reset(); success.hidden = true; form.querySelector('.qm-submit').disabled = false; }, 2200);
+    const btn = form.querySelector('.qm-submit');
+    btn.disabled = true;
+    try{
+      const res = await fetch('https://api.web3forms.com/submit',{
+        method:'POST',
+        headers:{'Content-Type':'application/json',Accept:'application/json'},
+        body: JSON.stringify(Object.fromEntries(new FormData(form)))
+      });
+      const data = await res.json();
+      if(!data.success) throw new Error(data.message || 'send failed');
+      success.hidden = false;
+      setTimeout(()=>{ close(); form.reset(); success.hidden = true; btn.disabled = false; }, 2600);
+    }catch(err){
+      btn.disabled = false;
+      alert('Something went wrong. Please try again, or contact us on WhatsApp.');
+    }
   });
 })();

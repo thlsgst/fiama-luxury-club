@@ -37,7 +37,7 @@ a{text-decoration:none}
    § 1 · HERO
 ══════════════════════════════════════════════ */
 #hero{position:relative;height:100vh;min-height:620px;display:flex;flex-direction:column;overflow:hidden}
-.hero-bg{position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?auto=format&fit=crop&w=1920&q=85') center/cover no-repeat;transform:scale(1.06);transition:transform 9s ease}
+.hero-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(1.06);transition:transform 9s ease}
 #hero.loaded .hero-bg{transform:scale(1)}
 .hero-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.42) 0%,rgba(0,0,0,.08) 45%,rgba(0,0,0,.18) 70%,rgba(0,0,0,.6) 100%)}
 .hero-nav{position:relative;z-index:10;display:flex;align-items:center;justify-content:space-between;padding:36px 64px}
@@ -122,7 +122,7 @@ a{text-decoration:none}
    § 6 · QUOTE WITH BACKGROUND
 ══════════════════════════════════════════════ */
 #quote-bg{position:relative;height:110vh;min-height:480px;display:flex;align-items:center;justify-content:center;overflow:hidden}
-.qbg-img{position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1530053969600-caed2596d242?auto=format&fit=crop&w=1920&q=85') center/cover no-repeat;transform:scale(1.04);transition:transform 10s ease}
+.qbg-img{position:absolute;inset:0;background:url('assets/route-sardinia.webp') center/cover no-repeat;transform:scale(1.04);transition:transform 10s ease}
 #quote-bg:hover .qbg-img{transform:scale(1)}
 .qbg-veil{position:absolute;inset:0;background:rgba(10,10,8,.42)}
 .qbg-words{position:relative;z-index:2;text-align:center;color:#fff}
