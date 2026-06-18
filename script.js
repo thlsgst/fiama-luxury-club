@@ -197,17 +197,22 @@ function addSwipe(el, threshold, onNext, onPrev){
     // TODO: inject Google Analytics (gtag.js) here once the GA ID exists.
   }
 
-  const choice = localStorage.getItem(KEY);
-  if(choice === 'accepted'){ loadAnalytics(); return; }
-  if(choice === 'declined'){ return; }
+  // "Cookie Settings" triggers (footer link, etc.) reopen the banner
+  document.querySelectorAll('[data-cookie-settings]').forEach(t=>{
+    t.addEventListener('click', e=>{ e.preventDefault(); el.hidden = false; });
+  });
 
-  setTimeout(()=>{ el.hidden = false; }, 1200);
   el.querySelector('.ck-accept').addEventListener('click', ()=>{
     localStorage.setItem(KEY, 'accepted'); el.hidden = true; loadAnalytics();
   });
   el.querySelector('.ck-decline').addEventListener('click', ()=>{
     localStorage.setItem(KEY, 'declined'); el.hidden = true;
   });
+
+  const choice = localStorage.getItem(KEY);
+  if(choice === 'accepted'){ loadAnalytics(); return; }
+  if(choice === 'declined'){ return; }
+  setTimeout(()=>{ el.hidden = false; }, 1200);
 })();
 
 // ── QUOTE MODAL ──
