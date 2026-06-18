@@ -184,6 +184,32 @@ function addSwipe(el, threshold, onNext, onPrev){
   });
 })();
 
+// ── COOKIE CONSENT ──
+(function(){
+  const el = document.getElementById('cookie-consent');
+  if(!el) return;
+  const KEY = 'fiama-cookie-consent';
+
+  // Load Google Analytics only after consent (wire GA snippet here when ready)
+  function loadAnalytics(){
+    if(window.__fiamaGA) return;
+    window.__fiamaGA = true;
+    // TODO: inject Google Analytics (gtag.js) here once the GA ID exists.
+  }
+
+  const choice = localStorage.getItem(KEY);
+  if(choice === 'accepted'){ loadAnalytics(); return; }
+  if(choice === 'declined'){ return; }
+
+  setTimeout(()=>{ el.hidden = false; }, 1200);
+  el.querySelector('.ck-accept').addEventListener('click', ()=>{
+    localStorage.setItem(KEY, 'accepted'); el.hidden = true; loadAnalytics();
+  });
+  el.querySelector('.ck-decline').addEventListener('click', ()=>{
+    localStorage.setItem(KEY, 'declined'); el.hidden = true;
+  });
+})();
+
 // ── QUOTE MODAL ──
 (function(){
   const modal = document.getElementById('quote-modal');
